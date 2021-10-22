@@ -1,2 +1,2 @@
 # Coding-Game
-My Soution to some coding Game Challenges
+My Solution to some coding Game Challenges
