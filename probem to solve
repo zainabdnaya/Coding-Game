@@ -1,0 +1,8 @@
+
+
+Input:  hellohellohel 
+
+output: hello*(2+3/5)
+
+
+the repetitive word *((nbr of repition of the word)+ (the caracters that aren't complete word)/lenght of the word)
