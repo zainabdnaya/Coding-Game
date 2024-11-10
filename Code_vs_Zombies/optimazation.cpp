@@ -6,80 +6,53 @@
 
 using namespace std;
 
-
 int main() {
+    while (true) {
+        int x, y;
+        cin >> x >> y;
+        cin.ignore();
 
-  // game loop
-  while (1) {
-    int x;
-    int y;
-    cin >> x >> y;
-    cin.ignore();
-    int humanCount;
-    cin >> humanCount;
-    cin.ignore();
-    int minx = 0;
-    int diffx = 0;
-    int diffy = 0;
-    int targetX = 0;
-    int targetY = 0;
-    bool immediateThreat = false;
-    int zombdfrx = 0;
-    int zombdfry = 0;
-    int min1 = 0;
-    int min2 = 0;
-    int zombieCount;
-    int zombieId;
-    int zombieX;
-    int zombieY;
-    int zombieXNext;
-    int zombieYNext;
-  
-    for (int i = 0; i < humanCount; i++) {
-      int humanId;
-      int humanX;
-      int humanY;
-      cin >> humanId >> humanX >> humanY;
-      cin.ignore();
-      diffx = pow(x - humanX,2);
-      diffy = pow(y - humanY,2);
-      if (i == 0) {
-        minx = sqrt(diffx + diffy);
-        targetX = humanX;
-        targetY = humanY;
-      }else if (minx > sqrt(pow(diffx, 2) + pow(diffy, 2))) {
-        minx = sqrt(pow(diffx, 2) + pow(diffy, 2));
-        targetX = humanX;
-        targetY = humanY;
-      }
-    }
-    cin >> zombieCount;
-    cin.ignore();
-    for (int i = 0; i < zombieCount; i++) {
-      cin >> zombieId >> zombieX >> zombieY >> zombieXNext >> zombieYNext;
-      zombdfrx = pow((targetX - zombieX), 2);
-      zombdfry = pow((targetY - zombieY), 2);
-      min1 = sqrt(zombdfrx + zombdfry);
-      if (min1  < 1 &&  min1 > 0)
-      {
-        targetX = zombieX;
-        targetX = zombieY;
-        break;
-      }
-      zombdfrx = pow((targetX - zombieXNext), 2);
-      zombdfry = pow((targetY - zombieYNext), 2);
-      min2 = sqrt(zombdfrx + zombdfry);
-        if (  min2  <= 1 &&  min2 > 0)
-        {
-          targetX =  zombieXNext;
-          targetX = zombieYNext;
-          break;
+        int humanCount;
+        cin >> humanCount;
+        cin.ignore();
+
+        int targetX = 0, targetY = 0;
+        double minDistance = numeric_limits<double>::max();
+
+        for (int i = 0; i < humanCount; ++i) {
+            int humanId, humanX, humanY;
+            cin >> humanId >> humanX >> humanY;
+            cin.ignore();
+
+            double distance = sqrt(pow(humanX - x, 2) + pow(humanY - y, 2));
+            if (distance < minDistance) {
+                minDistance = distance;
+                targetX = humanX;
+                targetY = humanY;
+            }
         }
-      cin.ignore();
+
+        int zombieCount;
+        cin >> zombieCount;
+        cin.ignore();
+
+        for (int i = 0; i < zombieCount; ++i) {
+            int zombieId, zombieX, zombieY, zombieXNext, zombieYNext;
+            cin >> zombieId >> zombieX >> zombieY >> zombieXNext >> zombieYNext;
+
+            double distanceCurrent = sqrt(pow(targetX - zombieX, 2) + pow(targetY - zombieY, 2));
+            double distanceNext = sqrt(pow(targetX - zombieXNext, 2) + pow(targetY - zombieYNext, 2));
+
+            if (distanceCurrent > distanceNext) {
+                x = zombieX;
+                y = zombieY;
+            }else{
+                x = zombieXNext;
+                y = zombieYNext;
+            }
+
+            cin.ignore();
+        }
+
+        cout << targetX << " " << targetY << endl;
     }
-
-    // Write an action using cout. DON'T FORGET THE "<< endl"
-    // To debug: cerr << "Debug messages..." << endl;
-
-    cout << targetX <<  " "  << targetY << endl; // Your destination coordinates
-  }
